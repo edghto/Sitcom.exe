@@ -59,7 +59,11 @@ namespace Sitcoms.Core
                 .Where(s => s.Name == name)
                 .SelectMany(s => s.Seasons)
                 .Where(s => s.Number == season)
-                .Single();
+                .SingleOrDefault();
+
+            if (targetSeason == null)
+                throw new ArgumentException(string.Format("Season {0} for sitcom {1} doesn't exists", season, name));
+
             targetSeason.Last = last;
         }
     }
