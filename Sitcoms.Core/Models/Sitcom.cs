@@ -6,5 +6,10 @@ namespace Sitcoms.Core.Models
     {
         public string Name { get; set; }
         public ICollection<Season> Seasons { get; set; }
+
+        public Sitcom()
+        {
+            Seasons = new List<Season>();
+        }
     }
 }

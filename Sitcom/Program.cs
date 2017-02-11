@@ -29,9 +29,13 @@ namespace Sitcoms
             sitcoms.SetLast(name: "Foo", season: 1, last: 5);
 
             //Report requested sitcoms 
-            sitcoms.Report(
+            var r = sitcoms.Report(
                 new Sitcoms.Core.ReportRequest() { Name = "Foo" }, 
                 new Sitcoms.Core.ReportRequest() { Name = "Boo", Season = 4 });
+            foreach (var sitcom in r)
+            {
+                Console.WriteLine(sitcom);
+            }
         }
     }
 }
