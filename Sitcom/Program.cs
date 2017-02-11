@@ -20,16 +20,18 @@ namespace Sitcoms
 
             //List stored sitcoms with all seasons
             var l = sitcoms.List();
-            foreach (var s in l)
+            foreach (var sitcom in l)
             {
-                Console.WriteLine("{0} {1}", s.Name, s.Seasons.Join(","));
+                Console.WriteLine("{0} {1}", sitcom.Name, sitcom.Seasons.Select(s => s.Number).ToList());
             }
 
             //Set last watched episode of sitcom
-            sitcoms.Last(name: "Foo", season: 1, last: 5);
+            sitcoms.SetLast(name: "Foo", season: 1, last: 5);
 
             //Report requested sitcoms 
-            sitcoms.Report(new Sitcoms.Core.ReportRequest() { Name = "Foo" }, new Sitcoms.Core.ReportRequest() { Name = "Boo", Season = 4 });
+            sitcoms.Report(
+                new Sitcoms.Core.ReportRequest() { Name = "Foo" }, 
+                new Sitcoms.Core.ReportRequest() { Name = "Boo", Season = 4 });
         }
     }
 }

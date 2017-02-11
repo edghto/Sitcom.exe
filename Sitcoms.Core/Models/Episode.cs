@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sitcoms.Core
+namespace Sitcoms.Core.Models
 {
     public class Episode
     {
