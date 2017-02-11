@@ -17,9 +17,10 @@ namespace Sitcoms.Core
             var episodes = parser.Episodes;
 
             var sitcom = sitcoms.Where(s => s.Name == name).SingleOrDefault();
-            if (sitcom != null)
+            if (sitcom == null)
             {
                 sitcom = new Sitcom() { Name = name };
+                sitcoms.Add(sitcom);
             }
 
             var targetSeason = sitcom.Seasons.Where(s => s.Number == season).SingleOrDefault();
