@@ -60,6 +60,10 @@
       <Project>{3fed4fc3-01f4-417c-89d8-bb2a392689c1}</Project>
       <Name>Sitcoms.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Sitcoms.Persistence\Sitcoms.Persistence.csproj">
+      <Project>{880b8254-2cb7-4de7-a741-2c55875f121f}</Project>
+      <Name>Sitcoms.Persistence</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
