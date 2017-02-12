@@ -1,41 +1,60 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
-using System.Text.RegularExpressions;
+using CommandLine;
 
 namespace Sitcoms
 {
     class Program
     {
-        static void Main(string[] args)
+        static int RunAdd(AddOptions opts)
         {
             var sitcoms = new Sitcoms.Core.SitcomsManager();
+            sitcoms.Add(name: opts.Name, season: opts.Season, sourceFile: opts.SourceFile);
+            return 0;
+        }
 
-            //Add new season to sitcom (sitcom may not exist)
-            sitcoms.Add(name: "Foo", season: 1, sourceFile: @"e:\Download\foo.htm");
-            sitcoms.Add(name: "Boo", season: 6, sourceFile: @"e:\Download\boo.htm");
-
-            //List stored sitcoms with all seasons
-            var l = sitcoms.List();
-            foreach (var sitcom in l)
+        static int RunList(ListOptions opts)
+        {
+            var sitcoms = new Sitcoms.Core.SitcomsManager();
+            var list = sitcoms.List();
+            foreach (var sitcom in list)
             {
-                Console.WriteLine("{0} {1}", sitcom.Name, sitcom.Seasons.Select(s => s.Number).ToList());
+                var seasons = sitcom.Seasons.Select(s => s.Number).ToList();
+                Console.WriteLine("{0} {1}", sitcom.Name, string.Join(",", seasons));
             }
+            return 0;
+        }
 
-            //Set last watched episode of sitcom
-            sitcoms.SetLast(name: "Foo", season: 1, last: 5);
+        static int RunLast(LastOptions opts)
+        {
+            var sitcoms = new Sitcoms.Core.SitcomsManager();
+            sitcoms.SetLast(name: opts.Name, season: opts.Season, last: opts.Last);
+            return 0;
+        }
 
-            //Report requested sitcoms 
-            var r = sitcoms.Report(
-                new Sitcoms.Core.ReportRequest() { Name = "Foo" }, 
-                new Sitcoms.Core.ReportRequest() { Name = "Boo", Season = 4 });
-            foreach (var sitcom in r)
+        static int RunReport(ReportOptions opts)
+        {
+            var requests = opts.Requests.ToArray();
+            var sitcoms = new Sitcoms.Core.SitcomsManager();
+            var report = sitcoms.Report(requests);
+            foreach (var sitcom in report)
             {
                 Console.WriteLine(sitcom);
             }
+            return 0;
+        }
+
+        static int Main(string[] args)
+        {
+            return Parser.Default
+                .ParseArguments<AddOptions,ListOptions,LastOptions,ReportOptions>(args)
+                .MapResult(
+                    (AddOptions opts) => RunAdd(opts),
+                    (ListOptions opts) => RunList(opts),
+                    (LastOptions opts) => RunLast(opts),
+                    (ReportOptions opts) => RunReport(opts),
+                    errs => 1
+                );
         }
     }
 }
