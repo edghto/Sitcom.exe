@@ -10,6 +10,12 @@ namespace Sitcoms.Core
     public class SitcomsManager
     {
         private ICollection<Sitcom> sitcoms = new List<Sitcom>();
+        private IUnitOfWork _UnitOfWork;
+
+        public SitcomsManager(IUnitOfWork unitOfWork)
+        {
+            _UnitOfWork = unitOfWork;
+        }
 
         public void Add(string name, int season, string sourceFile)
         {

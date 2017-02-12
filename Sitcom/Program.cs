@@ -6,16 +6,21 @@ namespace Sitcoms
 {
     class Program
     {
+        static Sitcoms.Core.SitcomsManager GetSitcomsManager()
+        {
+            return new Core.SitcomsManager(new Sitcoms.Persistence.UnitOfWork());
+        }
+
         static int RunAdd(AddOptions opts)
         {
-            var sitcoms = new Sitcoms.Core.SitcomsManager();
+            var sitcoms = GetSitcomsManager();
             sitcoms.Add(name: opts.Name, season: opts.Season, sourceFile: opts.SourceFile);
             return 0;
         }
 
         static int RunList(ListOptions opts)
         {
-            var sitcoms = new Sitcoms.Core.SitcomsManager();
+            var sitcoms = GetSitcomsManager();
             var list = sitcoms.List();
             foreach (var sitcom in list)
             {
@@ -27,7 +32,7 @@ namespace Sitcoms
 
         static int RunLast(LastOptions opts)
         {
-            var sitcoms = new Sitcoms.Core.SitcomsManager();
+            var sitcoms = GetSitcomsManager();
             sitcoms.SetLast(name: opts.Name, season: opts.Season, last: opts.Last);
             return 0;
         }
@@ -35,7 +40,7 @@ namespace Sitcoms
         static int RunReport(ReportOptions opts)
         {
             var requests = opts.Requests.ToArray();
-            var sitcoms = new Sitcoms.Core.SitcomsManager();
+            var sitcoms = GetSitcomsManager();
             var report = sitcoms.Report(requests);
             foreach (var sitcom in report)
             {
