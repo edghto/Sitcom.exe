@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Sitcoms.Persistence
 {
-    class SitcomsContext : DbContext
+    public class SitcomsContext : DbContext
     {
         public DbSet<Core.Models.Sitcom> Sitcoms { get; set; }
         public DbSet<Core.Models.Season> Seasons { get; set; }

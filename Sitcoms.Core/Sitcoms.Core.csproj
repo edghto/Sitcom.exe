@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IUnitOfWork.cs" />
     <Compile Include="Models\Episode.cs" />
     <Compile Include="EpisodeParsers\IMDBEpisodeParser.cs" />
     <Compile Include="IEpisodeParser.cs" />
@@ -51,6 +52,10 @@
     <Compile Include="ReportRequest.cs" />
     <Compile Include="Models\Season.cs" />
     <Compile Include="Models\Sitcom.cs" />
+    <Compile Include="Repositories\IEpisodeRepository.cs" />
+    <Compile Include="Repositories\IRepository.cs" />
+    <Compile Include="Repositories\ISeasonRepository.cs" />
+    <Compile Include="Repositories\ISitcomRepository.cs" />
     <Compile Include="SitcomsManager.cs" />
   </ItemGroup>
   <ItemGroup>
