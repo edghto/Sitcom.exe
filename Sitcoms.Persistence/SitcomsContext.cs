@@ -11,5 +11,15 @@ namespace Sitcoms.Persistence
     {
         public DbSet<Core.Models.Sitcom> Sitcoms { get; set; }
         public DbSet<Core.Models.Episode> Episodes { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            var instance = System.Data.Entity.SqlServer.SqlProviderServices.Instance;
+
+            modelBuilder.Configurations.Add(new EntityConfigurations.EpisodeConfiguration());
+            modelBuilder.Configurations.Add(new EntityConfigurations.SitcomConfiguration());
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

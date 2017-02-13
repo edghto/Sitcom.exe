@@ -45,9 +45,6 @@ namespace Sitcoms.Core
 
         public IEnumerable<Season> Report(params ReportRequest[] requests)
         {
-            if (requests.Any(r => r.Season == null))
-                throw new NotImplementedException();
-
             var episodes = _UnitOfWork.EpisodeRepository.GetEpisodesByRequest(requests);
 
             return episodes;
