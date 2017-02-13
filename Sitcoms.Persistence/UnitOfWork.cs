@@ -15,8 +15,6 @@ namespace Sitcoms.Persistence
 
         public IEpisodeRepository EpisodeRepository { get; private set; }
 
-        public ISeasonRepository SeasonRepository { get; private set; }
-
         public ISitcomRepository SitcomRepository { get; private set; }
 
         public int Complete()
@@ -32,7 +30,6 @@ namespace Sitcoms.Persistence
         public UnitOfWork()
         {
             EpisodeRepository = new EpisodeRepository(_Context);
-            SeasonRepository = new SeasonRepository(_Context);
             SitcomRepository = new SitcomRepository(_Context);
         }
     }

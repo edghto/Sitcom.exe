@@ -24,8 +24,7 @@ namespace Sitcoms
             var list = sitcoms.List();
             foreach (var sitcom in list)
             {
-                var seasons = sitcom.Seasons.Select(s => s.Number).ToList();
-                Console.WriteLine("{0} {1}", sitcom.Name, string.Join(",", seasons));
+                Console.WriteLine("{0} {1}", sitcom.Name, string.Join(",", sitcom.Seasons));
             }
             return 0;
         }
@@ -42,9 +41,13 @@ namespace Sitcoms
             var requests = opts.Requests.ToArray();
             var sitcoms = GetSitcomsManager();
             var report = sitcoms.Report(requests);
-            foreach (var sitcom in report)
+            foreach (var season in report)
             {
-                Console.WriteLine(sitcom);
+                Console.WriteLine(season.Sitcom.Name);
+                foreach (var episode in season.Episodes)
+                {
+                    Console.WriteLine("S{0:00}E{1:00}", episode.Season, episode.Number);
+                }
             }
             return 0;
         }

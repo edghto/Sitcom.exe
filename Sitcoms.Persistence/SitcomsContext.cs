@@ -10,7 +10,6 @@ namespace Sitcoms.Persistence
     public class SitcomsContext : DbContext
     {
         public DbSet<Core.Models.Sitcom> Sitcoms { get; set; }
-        public DbSet<Core.Models.Season> Seasons { get; set; }
         public DbSet<Core.Models.Episode> Episodes { get; set; }
     }
 }

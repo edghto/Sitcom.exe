@@ -22,55 +22,49 @@ namespace Sitcoms.Core
             var parser = new EpisodeParsers.IMDBEpisodeParser(sourceFile);
             var episodes = parser.Episodes;
 
-            var sitcom = sitcoms.Where(s => s.Name == name).SingleOrDefault();
-            if (sitcom == null)
+            var sitcom = _UnitOfWork.SitcomRepository.Find(s => s.Name == name).SingleOrDefault();
+            if(sitcom == null)
             {
                 sitcom = new Sitcom() { Name = name };
-                sitcoms.Add(sitcom);
+                _UnitOfWork.SitcomRepository.Add(sitcom);
             }
 
-            var targetSeason = sitcom.Seasons.Where(s => s.Number == season).SingleOrDefault();
-            if (targetSeason == null)
-            {
-                targetSeason = new Season() { Number = season };
-                sitcom.Seasons.Add(targetSeason);
-            }
-
+            sitcom.Episodes.Clear();
             foreach (var episode in episodes)
             {
-                targetSeason.Episodes.Add(episode);
+                sitcom.Episodes.Add(episode);
             }
+
+            _UnitOfWork.Complete();
         }
 
-        public ICollection<Sitcom> List()
+        public IEnumerable<SitcomWithSeasons> List()
         {
-            return sitcoms;
+            return _UnitOfWork.SitcomRepository.GetSitcomsWithSeasons();
         }
 
-        public ICollection<Sitcom> Report(params ReportRequest[] requests)
+        public IEnumerable<Season> Report(params ReportRequest[] requests)
         {
             if (requests.Any(r => r.Season == null))
                 throw new NotImplementedException();
 
-            var sitcomNames = requests.Select(r => r.Name);
-            var list = sitcoms.Where(s => sitcomNames.Contains(s.Name));
-            //TODO limit selection only to requested season
+            var episodes = _UnitOfWork.EpisodeRepository.GetEpisodesByRequest(requests);
 
-            return list.ToList();
+            return episodes;
         }
 
         public void SetLast(string name, int season, int last)
         {
-            var targetSeason = sitcoms
-                .Where(s => s.Name == name)
-                .SelectMany(s => s.Seasons)
-                .Where(s => s.Number == season)
-                .SingleOrDefault();
-
-            if (targetSeason == null)
+            var episodes = _UnitOfWork.EpisodeRepository.GetEpisodesOfSeason(seasonNumber: season, sitcomName: name);
+            if (episodes == null)
                 throw new ArgumentException(string.Format("Season {0} for sitcom {1} doesn't exists", season, name));
 
-            targetSeason.Last = last;
+            foreach (var episode in episodes.Where(e => e.Number <= last && !e.Watched))
+            {
+                episode.Watched = true;
+            }
+
+            _UnitOfWork.Complete();
         }
     }
 }

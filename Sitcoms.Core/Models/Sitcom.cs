@@ -4,12 +4,13 @@ namespace Sitcoms.Core.Models
 {
     public class Sitcom
     {
+        public int Id { get; set; }
         public string Name { get; set; }
-        public ICollection<Season> Seasons { get; set; }
+        public virtual ICollection<Episode> Episodes { get; set; }
 
         public Sitcom()
         {
-            Seasons = new List<Season>();
+            Episodes = new List<Episode>();
         }
     }
 }
