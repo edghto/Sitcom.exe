@@ -9,6 +9,9 @@ namespace Sitcoms.Persistence.EntityConfigurations
         {
             Property(e => e.Name)
                 .IsRequired();
+
+            HasRequired(e => e.Sitcom)
+                .WithMany(s => s.Episodes);
         }
     }
 }

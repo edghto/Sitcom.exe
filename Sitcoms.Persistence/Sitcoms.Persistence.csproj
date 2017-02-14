@@ -55,6 +55,10 @@
     <Compile Include="Migrations\201702132207175_InitialModel.Designer.cs">
       <DependentUpon>201702132207175_InitialModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702142049340_AddNotNullConstraintToSitcomColumnOfEpisodesTable.cs" />
+    <Compile Include="Migrations\201702142049340_AddNotNullConstraintToSitcomColumnOfEpisodesTable.Designer.cs">
+      <DependentUpon>201702142049340_AddNotNullConstraintToSitcomColumnOfEpisodesTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\EpisodeRepository.cs" />
@@ -76,6 +80,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201702132207175_InitialModel.resx">
       <DependentUpon>201702132207175_InitialModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702142049340_AddNotNullConstraintToSitcomColumnOfEpisodesTable.resx">
+      <DependentUpon>201702142049340_AddNotNullConstraintToSitcomColumnOfEpisodesTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
