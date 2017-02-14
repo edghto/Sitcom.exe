@@ -46,11 +46,12 @@ namespace Sitcoms
                 Console.WriteLine(season.Sitcom.Name);
                 foreach (var episode in season.Episodes)
                 {
-                    Console.WriteLine("{0} S{1:00}E{2:00} - {3}", 
+                    Console.WriteLine("{0} S{1:00}E{2:00} - {3} ({4})", 
                         episode.Watched?"*":" ", 
                         episode.Season, 
                         episode.Number,
-                        episode.Name);
+                        episode.Name,
+                        episode.PremiereDate.ToShortDateString());
                 }
             }
             return 0;
