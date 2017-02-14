@@ -53,8 +53,17 @@ namespace Sitcoms.Core
         public void SetLast(string name, int season, int last)
         {
             var episodes = _UnitOfWork.EpisodeRepository.GetEpisodesOfSeason(seasonNumber: season, sitcomName: name);
-            if (episodes == null)
-                throw new ArgumentException(string.Format("Season {0} for sitcom {1} doesn't exists", season, name));
+            if (episodes == null || episodes.Count() == 0)
+            {
+                var msg = string.Format("Season {0} for sitcom {1} doesn't exist", season, name);
+                throw new Repositories.SeasonNotFoundException(msg);
+            }
+
+            if(episodes.Select(e => e.Number).Max() < last)
+            {
+                var msg = string.Format("S{0:00}E{1:00} for sitcom {2} doesn't exist", season, last, name);
+                throw new Repositories.EpisodeNotFoundException(msg);
+            }
 
             foreach (var episode in episodes.Where(e => e.Number <= last && !e.Watched))
             {

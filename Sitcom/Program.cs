@@ -58,15 +58,32 @@ namespace Sitcoms
 
         static int Main(string[] args)
         {
-            return Parser.Default
-                .ParseArguments<AddOptions,ListOptions,LastOptions,ReportOptions>(args)
-                .MapResult(
-                    (AddOptions opts) => RunAdd(opts),
-                    (ListOptions opts) => RunList(opts),
-                    (LastOptions opts) => RunLast(opts),
-                    (ReportOptions opts) => RunReport(opts),
-                    errs => 1
-                );
+            try
+            {
+                return Parser.Default
+                    .ParseArguments<AddOptions, ListOptions, LastOptions, ReportOptions>(args)
+                    .MapResult(
+                        (AddOptions opts) => RunAdd(opts),
+                        (ListOptions opts) => RunList(opts),
+                        (LastOptions opts) => RunLast(opts),
+                        (ReportOptions opts) => RunReport(opts),
+                        errs => 1
+                    );
+            }
+            catch (Core.Repositories.SitcomNotFoundException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (Core.Repositories.SeasonNotFoundException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (Core.Repositories.EpisodeNotFoundException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            return -1;
         }
     }
 }

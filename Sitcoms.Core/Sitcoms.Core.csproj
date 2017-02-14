@@ -56,6 +56,7 @@
     <Compile Include="Repositories\IEpisodeRepository.cs" />
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\ISitcomRepository.cs" />
+    <Compile Include="Repositories\Exception.cs" />
     <Compile Include="SitcomsManager.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -31,8 +31,23 @@ namespace Sitcoms.Persistence.Repositories
             var seasons = new List<Season>();
             foreach (var request in requests)
             {
-                int seasonNumber = request.Season??GetLastSeason(request.Name);
+                int seasonNumber;
+                try
+                {
+                    seasonNumber = request.Season ?? GetLastSeason(request.Name);
+                }
+                catch (ArgumentNullException e)
+                {
+                    var msg = string.Format("Sitcom {0} doesn't exist", request.Name);
+                    throw new Core.Repositories.SitcomNotFoundException(msg, e);
+                }
                 var episodes = GetEpisodesOfSeason(seasonNumber, request.Name);
+
+                if (episodes == null || episodes.Count() == 0)
+                {
+                    var msg = string.Format("Season {0} for sitcom {1} doesn't exist", seasonNumber, request.Name);
+                    throw new Core.Repositories.SeasonNotFoundException(msg);
+                }
 
                 seasons.Add(new Season()
                 {
