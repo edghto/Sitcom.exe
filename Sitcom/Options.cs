@@ -37,9 +37,9 @@ namespace Sitcoms
                 var requests = new List<Core.ReportRequest>();
                 foreach (var r in RawRequests)
                 {
-                    var regex = new Regex(@"([\w-]+)(:(\d+))?");
+                    var regex = new Regex(@"^\s*([\w-\s]+)(:(\d+))?\s*$");
                     var match = regex.Match(r);
-                    if (!match.Success) throw new Exception("Invalid request format");
+                    if (!match.Success) throw new Exception("Invalid request format " + r);
 
                     var request = new Core.ReportRequest();
                     request.Name = match.Groups[1].Value;
