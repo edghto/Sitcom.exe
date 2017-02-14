@@ -65,9 +65,9 @@ namespace Sitcoms.Core
                 throw new Repositories.EpisodeNotFoundException(msg);
             }
 
-            foreach (var episode in episodes.Where(e => e.Number <= last && !e.Watched))
+            foreach (var episode in episodes)
             {
-                episode.Watched = true;
+                episode.Watched = episode.Number <= last;
             }
 
             _UnitOfWork.Complete();
