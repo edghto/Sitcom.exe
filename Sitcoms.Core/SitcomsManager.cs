@@ -66,6 +66,14 @@ namespace Sitcoms.Core
 
         public IEnumerable<Season> Report(params ReportRequest[] requests)
         {
+            if(requests.Count() == 0)
+            {
+                requests = _UnitOfWork.SitcomRepository
+                    .GetAll()
+                    .Select(s => new ReportRequest() { Name = s.Name })
+                    .ToArray();
+            }
+
             var episodes = _UnitOfWork.EpisodeRepository.GetEpisodesByRequest(requests);
 
             return episodes;
