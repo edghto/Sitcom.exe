@@ -17,7 +17,7 @@ namespace Sitcoms.Core
             _UnitOfWork = unitOfWork;
         }
 
-        public void Add(string name, int season, string sourceFile)
+        public void Add(string name, int? season, string sourceFile)
         {
             var parser = new EpisodeParsers.IMDBEpisodeParser(sourceFile);
             var episodes = parser.Episodes;
@@ -31,6 +31,7 @@ namespace Sitcoms.Core
 
             foreach (var episode in episodes)
             {
+                episode.Season = season ?? episode.Season;
                 sitcom.Episodes.Add(episode);
             }
             _UnitOfWork.Complete();

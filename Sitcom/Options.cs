@@ -77,9 +77,9 @@ namespace Sitcoms
             HelpText = "Source file name")]
         public string SourceFile { get; set; }
 
-        [Option('s', "season", Required = true,
-            HelpText = "Season number")]
-        public int Season { get; set; }
+        [Option('s', "season", Required = false,
+            HelpText = "Season number (override season extracted from file)")]
+        public int? Season { get; set; }
 
         [Value(0, Required = true,
             HelpText = "Sitcom name")]
