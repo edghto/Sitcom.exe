@@ -26,7 +26,7 @@ namespace Sitcoms.Persistence.Repositories
                 .ToList();
         }
 
-        public IEnumerable<Season> GetEpisodesByRequest(ReportRequest[] requests)
+        public IEnumerable<Season> GetEpisodesByRequest(params ReportRequest[] requests)
         {
             var seasons = new List<Season>();
             foreach (var request in requests)

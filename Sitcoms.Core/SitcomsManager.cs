@@ -29,11 +29,33 @@ namespace Sitcoms.Core
                 _UnitOfWork.SitcomRepository.Add(sitcom);
             }
 
-            sitcom.Episodes.Clear();
             foreach (var episode in episodes)
             {
                 sitcom.Episodes.Add(episode);
             }
+            _UnitOfWork.Complete();
+        }
+
+        public void Delete(string name, int? season = null)
+        {
+            if (season == null)
+            {
+                var sitcom = _UnitOfWork.SitcomRepository.Find(s => s.Name == name).SingleOrDefault();
+                if (sitcom == null)
+                {
+                    var msg = string.Format("Sitcom {0} doesn't exist", name);
+                    throw new Repositories.SitcomNotFoundException(msg);
+                }
+                _UnitOfWork.SitcomRepository.Remove(sitcom);
+            }
+            else
+            {
+                var request = new ReportRequest() { Name = name, Season = (int)season };
+                var targetSeason = _UnitOfWork.EpisodeRepository.GetEpisodesByRequest(request).Single();
+                _UnitOfWork.EpisodeRepository.RemoveRange(targetSeason.Episodes);
+            }
+
+            _UnitOfWork.Complete();
         }
 
         public IEnumerable<SitcomWithSeasons> List()
@@ -67,6 +89,7 @@ namespace Sitcoms.Core
             {
                 episode.Watched = episode.Number <= last;
             }
+            _UnitOfWork.Complete();
         }
     }
 }

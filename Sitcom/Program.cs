@@ -20,6 +20,13 @@ namespace Sitcoms
             return 0;
         }
 
+        static int RunDelete(DeleteOptions opts)
+        {
+            var sitcoms = GetSitcomsManager();
+            sitcoms.Delete(name: opts.Name, season: opts.Season);
+            return 0;
+        }
+
         static int RunList(ListOptions opts)
         {
             var sitcoms = GetSitcomsManager();
@@ -64,9 +71,10 @@ namespace Sitcoms
             try
             {
                 return Parser.Default
-                    .ParseArguments<AddOptions, ListOptions, LastOptions, ReportOptions>(args)
+                    .ParseArguments<AddOptions, DeleteOptions, ListOptions, LastOptions, ReportOptions>(args)
                     .MapResult(
                         (AddOptions opts) => RunAdd(opts),
+                        (DeleteOptions opts) => RunDelete(opts),
                         (ListOptions opts) => RunList(opts),
                         (LastOptions opts) => RunLast(opts),
                         (ReportOptions opts) => RunReport(opts),

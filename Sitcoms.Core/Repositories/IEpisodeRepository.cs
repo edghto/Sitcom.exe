@@ -19,6 +19,6 @@ namespace Sitcoms.Core.Repositories
         /// <exception cref="SitcomNotFoundException">One of requested sitcom doesn't exists</exception>
         /// <exception cref="SeasonNotFoundException">One of requested season of sitcom doesn't exists</exception>
         /// <returns>Collection of Seasons</returns>
-        IEnumerable<Season> GetEpisodesByRequest(ReportRequest[] requests);
+        IEnumerable<Season> GetEpisodesByRequest(params ReportRequest[] requests);
     }
 }

@@ -85,4 +85,17 @@ namespace Sitcoms
             HelpText = "Sitcom name")]
         public string Name { get; set; }
     }
+
+
+    [Verb("delete", HelpText = "Delete sitcom or season of sitcom")]
+    class DeleteOptions
+    {
+        [Option('s', "season", Required = false,
+            HelpText = "Season number")]
+        public int? Season { get; set; }
+
+        [Value(0, Required = true,
+            HelpText = "Sitcom name")]
+        public string Name { get; set; }
+    }
 }
