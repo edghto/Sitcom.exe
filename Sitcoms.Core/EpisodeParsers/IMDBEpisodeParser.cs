@@ -30,9 +30,16 @@ namespace Sitcoms.Core.EpisodeParsers
                 {
                     if (node.Attributes["class"].Value.Contains("list_item"))
                     {
-                        var episode = ParseEpisode(node);
-                        episode.Season = season;
-                        episodes.Add(episode);
+                        try
+                        {
+                            var episode = ParseEpisode(node);
+                            episode.Season = season;
+                            episodes.Add(episode);
+                        }
+                        catch(Exception e)
+                        {
+                            Console.WriteLine("[Debug] parsing episode failed: {0}", e.Message);
+                        }
                     }
                 }
 
