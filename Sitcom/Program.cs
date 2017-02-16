@@ -6,9 +6,11 @@ namespace Sitcoms
 {
     class Program
     {
+        static Core.IUnitOfWork _UnitOfWork = new Persistence.UnitOfWork();
+
         static Sitcoms.Core.SitcomsManager GetSitcomsManager()
         {
-            return new Core.SitcomsManager(new Sitcoms.Persistence.UnitOfWork());
+            return new Core.SitcomsManager(_UnitOfWork);
         }
 
         static int RunAdd(AddOptions opts)
@@ -82,6 +84,10 @@ namespace Sitcoms
             catch (Core.Repositories.EpisodeNotFoundException e)
             {
                 Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                _UnitOfWork.Dispose();
             }
 
             return -1;

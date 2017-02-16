@@ -34,8 +34,6 @@ namespace Sitcoms.Core
             {
                 sitcom.Episodes.Add(episode);
             }
-
-            _UnitOfWork.Complete();
         }
 
         public IEnumerable<SitcomWithSeasons> List()
@@ -69,8 +67,6 @@ namespace Sitcoms.Core
             {
                 episode.Watched = episode.Number <= last;
             }
-
-            _UnitOfWork.Complete();
         }
     }
 }
