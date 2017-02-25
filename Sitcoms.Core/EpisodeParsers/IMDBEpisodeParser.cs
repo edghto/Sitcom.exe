@@ -7,46 +7,40 @@ using System.Text.RegularExpressions;
 
 namespace Sitcoms.Core.EpisodeParsers
 {
-    class IMDBEpisodeParser
+    public class IMDBEpisodeParser
         : IEpisodeParser
     {
         private HtmlDocument doc;
         private int season;
-
-        public IMDBEpisodeParser(string fileName)
+        
+        public ICollection<Episode> Parse(string fileName)
         {
             doc = new HtmlDocument();
             doc.Load(fileName);
-        }
 
-        public ICollection<Episode> Episodes
-        {
-            get
+            ICollection<Episode> episodes = new List<Episode>();
+            season = GetSeason();
+
+            foreach (var node in doc.DocumentNode.SelectNodes(@"//div[@class]"))
             {
-                ICollection<Episode> episodes = new List<Episode>();
-                season = GetSeason();
-
-                foreach (var node in doc.DocumentNode.SelectNodes(@"//div[@class]"))
+                if (node.Attributes["class"].Value.Contains("list_item"))
                 {
-                    if (node.Attributes["class"].Value.Contains("list_item"))
+                    try
                     {
-                        try
-                        {
-                            var episode = ParseEpisode(node);
-                            episode.Season = season;
-                            episodes.Add(episode);
-                        }
-                        catch(Exception e)
-                        {
-                            Console.WriteLine("[Debug] parsing episode failed: {0}", e.Message);
-                        }
+                        var episode = ParseEpisode(node);
+                        episode.Season = season;
+                        episodes.Add(episode);
+                    }
+                    catch(Exception e)
+                    {
+                        Console.WriteLine("[Debug] parsing episode failed: {0}", e.Message);
                     }
                 }
-
-                return episodes;
             }
-        }
 
+            return episodes;
+        }
+        
         private Episode ParseEpisode(HtmlNode listItem)
         {
             var dateNode = listItem.SelectNodes(listItem.XPath + @"//div[@class='airdate']").First();

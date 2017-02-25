@@ -5,6 +5,6 @@ namespace Sitcoms.Core
 {
     public interface IEpisodeParser
     {
-        ICollection<Episode> Episodes { get; }
+        ICollection<Episode> Parse(string fileName);
     }
 }

@@ -10,7 +10,7 @@ namespace Sitcoms
 
         static Sitcoms.Core.SitcomsManager GetSitcomsManager()
         {
-            return new Core.SitcomsManager(_UnitOfWork);
+            return new Core.SitcomsManager(_UnitOfWork, new Core.EpisodeParsers.IMDBEpisodeParser());
         }
 
         static int RunAdd(AddOptions opts)

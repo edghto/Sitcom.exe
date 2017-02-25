@@ -11,16 +11,22 @@ namespace Sitcoms.Core
     {
         private ICollection<Sitcom> sitcoms = new List<Sitcom>();
         private IUnitOfWork _UnitOfWork;
+        private IEpisodeParser _EpisodeParser;
 
         public SitcomsManager(IUnitOfWork unitOfWork)
+            : this(unitOfWork, new EpisodeParsers.IMDBEpisodeParser())
+        { }
+
+        public SitcomsManager(IUnitOfWork unitOfWork, IEpisodeParser episodeParser)
         {
             _UnitOfWork = unitOfWork;
+            _EpisodeParser = episodeParser;
         }
 
         public void Add(string name, int? season, string sourceFile)
         {
-            var parser = new EpisodeParsers.IMDBEpisodeParser(sourceFile);
-            var episodes = parser.Episodes;
+            var parser = new EpisodeParsers.IMDBEpisodeParser();
+            var episodes = _EpisodeParser.Parse(sourceFile);
 
             var sitcom = _UnitOfWork.SitcomRepository.Find(s => s.Name == name).SingleOrDefault();
             if(sitcom == null)
