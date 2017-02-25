@@ -111,11 +111,13 @@ namespace Sitcoms.Tests
             };
 
             _EpisodeRepository
-                .Setup(e => e.GetEpisodesByRequest(It.IsAny<ReportRequest[]>())) // TODO: check that correct request is send
+                .Setup(e => e.GetEpisodesByRequest(It.IsAny<ReportRequest[]>()))
                 .Returns(seasons);
             _EpisodeRepository.Setup(e => e.RemoveRange(episodes));
             
             _SitcomManager.Delete(name: name, season: seasonNumber);
+            _EpisodeRepository.Verify(e => e.GetEpisodesByRequest(
+                It.Is<ReportRequest[]>(r => r.Count() == 1 && r[0].Name == name && r[0].Season == seasonNumber)));
             _EpisodeRepository.Verify(e => e.RemoveRange(episodes));
         }
     }
