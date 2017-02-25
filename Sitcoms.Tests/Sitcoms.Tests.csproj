@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="SitcomManagerAddTests.cs" />
     <Compile Include="SitcomManagerDeleteTests.cs" />
+    <Compile Include="SitcomManagerReportTests.cs" />
     <Compile Include="SitcomManagerSetLastTests.cs" />
     <Compile Include="SitcomsManagerListTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
